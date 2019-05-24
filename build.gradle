@@ -1,0 +1,22 @@
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+group = 'io.yggdrash'
+version = '0.10.0-SNAPSHOT'
+
+ext {
+    equinoxVersion = '3.13.0.v20180226-1711'
+    jacksonVersion      = '2.9.8'
+    gsonVersion         = '2.8.5'
+}
+
+dependencies {
+    compile "org.eclipse.tycho:org.eclipse.osgi:${equinoxVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    compile "com.google.code.gson:gson:${gsonVersion}"
+}
