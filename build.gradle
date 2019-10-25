@@ -1,10 +1,18 @@
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
 }
+
+signing {
+    sign configurations.archives
+}
+
 
 group = 'io.yggdrash'
 version = '0.10.0-beta'
@@ -21,4 +29,82 @@ dependencies {
     compile "com.google.code.gson:gson:${gsonVersion}"
 
     testCompile "com.vmlens:concurrent-junit:1.0.2"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Yggdrash Contract core'
+                description = 'Yggdrash Contract Core Project'
+                url = 'http://yggdrash.io'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'developers'
+                        name = 'dev'
+                        email = 'dev@yggdrash.io'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/yggdrash/contract-core.git'
+                    url = 'https://developers.yggdrash.io/'
+                }
+            }
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            // Sign POM
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            // Destination
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            // Add required metadata to POM
+            pom.project {
+                name 'Yggdrash Contract Core'
+                packaging 'jar'
+                description 'Yggdrash Contract Standard Develop Kit'
+                url 'https://yggdrash.io'
+
+                scm {
+                    connection 'scm:git:git://github.com/yggdrash/yggdrash.git'
+                    developerConnection 'scm:git:ssh://github.com/yggdrash/yggdrash.git'
+                    url 'http://github.com/yggdrash/yggdrash/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'yggdrash'
+                        name 'YGGDRASH DEVELOP TEAM'
+                        email 'dev@yggdrash.io'
+                        organization 'yggdrash'
+                        organizationUrl 'http://yggdrash.io'
+                    }
+                }
+            }
+        }
+    }
 }
