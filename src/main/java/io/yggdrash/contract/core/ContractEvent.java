@@ -13,7 +13,6 @@
 package io.yggdrash.contract.core;
 
 import io.yggdrash.contract.core.channel.ContractEventType;
-
 import java.io.Serializable;
 
 public class ContractEvent implements Serializable {
@@ -26,7 +25,7 @@ public class ContractEvent implements Serializable {
 
     }
 
-    public ContractEvent(ContractEventType type,Object item,  String contractVersion) {
+    public ContractEvent(ContractEventType type, Object item, String contractVersion) {
         this.type = type;
         this.item = item;
         this.contractVersion = contractVersion;

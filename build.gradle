@@ -15,7 +15,7 @@ signing {
 
 
 group = 'io.yggdrash'
-version = '0.10.0-beta'
+version = '0.10.2-beta'
 
 ext {
     equinoxVersion = '3.13.0.v20180226-1711'
